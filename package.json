@@ -1,12 +1,12 @@
 {
   "name": "forge-template",
-  "author": "FrankieIsLost",
+  "author": "Shantin Kirill",
   "version": "1.0.0",
   "description": "A forge template",
-  "homepage": "https://github.com/FrankieIsLost/forge-template#readme",
+  "homepage": "https://github.com/KirillShantin/forge-template#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FrankieIsLost/forge-template.git"
+    "url": "git+https://github.com/KirillShantin/forge-template.git"
   },
   "scripts": {
     "prettier": "prettier --write 'src/**/*.sol'",
