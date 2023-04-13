@@ -5,11 +5,11 @@ import {DSTest} from "ds-test/test.sol";
 import {Utilities} from "./utils/Utilities.sol";
 import {console} from "./utils/Console.sol";
 import {Vm} from "forge-std/Vm.sol";
-import "../Greeter.sol"; 
+import "../Greeter.sol";
 
 contract ContractTest is DSTest {
     Vm internal immutable vm = Vm(HEVM_ADDRESS);
-    Greeter greeter; 
+    Greeter greeter;
     Utilities internal utils;
     address payable[] internal users;
 
@@ -31,9 +31,9 @@ contract ContractTest is DSTest {
         assertTrue(sent);
         assertGt(bob.balance, alice.balance);
     }
-    function GreetingIsRight() public { 
+
+    function GreetingIsRight() public {
         greeter.setGreeting("Hi, I am fine!");
-        string greet = "Hi, I am fine!"; 
-        assertEq(greeter.greet(), greet); 
+        assertEq(greeter.greet(), "Hi, I am fine!");
     }
 }

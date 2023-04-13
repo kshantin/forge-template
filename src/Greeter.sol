@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: ISC
 pragma solidity ^0.8.11;
 
-import { console } from "./test/utils/Console.sol";
+import {console} from "./test/utils/Console.sol";
 
 /// @dev Thrown when trying to set the greeting with zero length.
 error GreeterZeroLengthGreeting();
