@@ -12,6 +12,7 @@ git submodule update --init --recursive  ## initialize submodule dependencies
 yarn install ## install development dependencies
 forge build
 forge test
+forge lint
 ```
 
 ## Features
