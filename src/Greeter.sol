@@ -17,6 +17,7 @@ contract Greeter {
     event GreetingChanged(string greeting, string newGreeting);
 
     constructor(string memory _greeting) {
+        // solhint-disable-next-line
         console.log("Deploying a Greeter with greeting '%s'", _greeting);
         greeting = _greeting;
     }
@@ -25,6 +26,7 @@ contract Greeter {
         if (bytes(_greeting).length == 0) {
             revert GreeterZeroLengthGreeting();
         }
+        // solhint-disable-next-line
         console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
         emit GreetingChanged(greeting, _greeting);
         greeting = _greeting;
