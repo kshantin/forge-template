@@ -1,4 +1,28 @@
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+yarn-error.log
+.pnp.*
+node_modules/
 out/
 cache/
-node_modules/
+
+# dotenv config file
 .env
+
+# solidity-coverage artifacts
+coverage/
+coverage.json
+
+# eth-gas-reporter artifacts
+gasReporterOutput.json
+
+# OpenMetrics report
+gas-profile-report.txt
+
+# JUnit report
+test-results.xml
