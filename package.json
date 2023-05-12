@@ -35,6 +35,7 @@
   ],
   "scripts": {
     "build": "forge build",
+    "coverage": "forge coverage",
     "rebuild": "forge build --force",
     "test": "forge test",
     "test:info": "forge test -vvvv --gas-report",
