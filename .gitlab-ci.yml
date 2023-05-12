@@ -1,0 +1,53 @@
+cache: &cache
+  key:
+    files:
+      - ./yarn.lock
+      - ./.yarnrrc.yml
+  paths:
+    - ./.yarn/cache/
+  policy: pull
+
+default:
+  image: ghcr.io/gulitsky/solidity-starter:latest
+  tags:
+    - build-solidity
+  before_script:
+    - yarn install --immutable
+
+stages:
+  - build
+  - test
+
+build:
+  stage: build
+  script:
+    - yarn build
+  cache:
+    <<: *cache
+    policy: pull-push
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - ./artifacts/
+
+lint:
+  stage: test
+  needs: ["build"]
+  dependencies:
+    - build
+  cache:
+    <<: *cache
+  script:
+    - yarn test
+  artifacts:
+    when: always
+    reports:
+      junit: ./test-results.xml
+
+test:
+  stage: test
+  need: []
+  cache:
+    <<: *cache
+  script:
+    - yarn lint

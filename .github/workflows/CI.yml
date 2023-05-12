@@ -1,28 +1,85 @@
 name: CI
+
 on:
   push:
     branches:
-      - master
-  pull_request:
+      - main
 
 jobs:
-  run-ci:
-    runs-on: ubuntu-latest
+  build:
+    name: Build
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.1
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
         with:
-          submodules: recursive
-      - uses: actions/setup-node@v2
-      - name: Install dev dependencies
-        run: npm install
-
-      - name: Install Foundry
-        uses: onbjerg/foundry-toolchain@v1
+          node-version: "18.x"
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+          yarn add typescript
+      - name: Build project
+        run: yarn run build
+      - name: Cache Yarn packages
+        uses: actions/cache@v2.1.4
         with:
-          version: nightly
-
-      - name: Run lint check
-        run: npm run lint:check
-
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+  test:
+    name: Run tests
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.1
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: "18.x"
+      - name: Cache Yarn packages
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+          yarn add typescript
       - name: Run tests
-        run: forge test
+        run: yarn run test
+      - name: Upload tests report
+        if: always()
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: test-results
+          path: ./test-results.xml
+  coverage:
+    name: Coverage
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.1
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: "18.x"
+      - name: Cache Yarn packages
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+          yarn add typescript
+      - name: Run tests with coverage
+        run: yarn run coverage
